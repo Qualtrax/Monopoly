@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Monopoly;
 
 namespace MonopolyTests
@@ -11,8 +13,8 @@ namespace MonopolyTests
 
         public GameBoardTests()
         {
-            player = new Player();
-            board = new GameBoard(player);
+            player = new Player("Richard");
+            board = new GameBoard(new[] { player });
         }
 
         [TestMethod]
@@ -36,6 +38,21 @@ namespace MonopolyTests
             board.MovePlayer(6);
 
             Assert.AreEqual(5, player.Location);
+        }
+
+        [TestMethod]
+        public void CreateGameWithTwoPlayersHorseAndCar()
+        {
+            var player1 = new Player("Horse");
+            var player2 = new Player("Car");
+            var playerList = new List<Player> { player1, player2 };
+
+            var gameBoard = new GameBoard(playerList);
+            
+            var gameBoardPlayerList = gameBoard.Players.ToList();
+            Assert.AreEqual(1, gameBoardPlayerList.Count(p => p.Name == player1.Name));
+            Assert.AreEqual(1, gameBoardPlayerList.Count(p => p.Name == player2.Name));
+            Assert.AreEqual(2, gameBoardPlayerList.Count);
         }
     }
 }

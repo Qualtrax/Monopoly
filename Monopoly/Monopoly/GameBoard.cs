@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Monopoly
 {
@@ -6,16 +8,17 @@ namespace Monopoly
     {
         private const Int32 GameBoardLength = 40;
 
-        private Player player;
+        public IEnumerable<Player> Players { get; private set; }
 
-        public GameBoard(Player player)
+        public GameBoard(IEnumerable<Player> players)
         {
-            this.player = player;
+            Players = players;
         }
 
         public void MovePlayer(Int32 numberOfSpaces)
         {
-            player.Location = (numberOfSpaces + player.Location) % GameBoardLength;
+            var firstPlayer = Players.FirstOrDefault();
+            firstPlayer.Location = (numberOfSpaces + firstPlayer.Location) % GameBoardLength;
         }
     }
 }
