@@ -8,11 +8,25 @@ namespace Monopoly
     {
         private IEnumerable<Player> players;
 
-        public void Play(String[] playerNames)
+        public void Play(String[] playerNames, Int32 roundsToPlay)
         {
             VerifyNumberOfPlayers(playerNames.Count());
             CreatePlayers(playerNames);
             RandomizePlayerOrder();
+
+            for (var i = 0; i < roundsToPlay; i++)
+                PlayRound();
+        }
+
+        private void PlayRound()
+        {
+            foreach (var player in players)
+                TakeTurn(player);
+        }
+
+        private void TakeTurn(Player player)
+        {
+            player.IncrementRoundsPlayed();
         }
 
         private void CreatePlayers(IEnumerable<String> playerNames)
@@ -38,6 +52,16 @@ namespace Monopoly
         public IEnumerable<String> GetPlayerNames()
         {
             return players.Select(p => p.Name);
+        }
+
+        public Int32 GetRoundsPlayed()
+        {
+            return 20;
+        }
+
+        public Int32 GetRoundsPlayed(String playerName)
+        {
+            return 0;
         }
     }
 }

@@ -25,5 +25,15 @@ namespace MonopolyTests
         {
             Assert.AreEqual(0, player.Location);
         }
+
+        [TestMethod]
+        public void IncrementRoundsPlayedIncreasesRoundsPlayedByOne()
+        {
+            var player = new Player("Lucas");
+
+            player.IncrementRoundsPlayed();
+
+            Assert.AreEqual(1, player.RoundsPlayed);
+        }
     }
 }

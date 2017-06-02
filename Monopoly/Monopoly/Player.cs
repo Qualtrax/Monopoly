@@ -6,10 +6,16 @@ namespace Monopoly
     {
         public Int32 Location { get; set; }
         public String Name { get; private set; }
+        public Int32 RoundsPlayed { get; private set; }
 
         public Player (String Name)
         {
             this.Name = Name;
+        }
+
+        public void IncrementRoundsPlayed()
+        {
+            RoundsPlayed++;
         }
     }
 }
