@@ -7,7 +7,7 @@ namespace MonopolyClient
     {
         public static void Main(String[] args)
         {
-            Game.Main(args);
+            //Game.Main(args);
         }
     }
 }

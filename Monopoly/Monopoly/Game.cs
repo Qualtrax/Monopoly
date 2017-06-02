@@ -1,31 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Monopoly
 {
     public class Game
     {
-        public static void Main(String[] playerNames)
+        private IEnumerable<Player> players;
+
+        public void Play(String[] playerNames)
         {
-            VerifyNumberOfPlayers(playerNames);
-            var players = CreatePlayers(playerNames);
-            var gameBoard = new GameBoard(players);
+            VerifyNumberOfPlayers(playerNames.Count());
+            CreatePlayers(playerNames);
+            RandomizePlayerOrder();
         }
 
-        private static IEnumerable<Player> CreatePlayers(IEnumerable<String> playerNames)
+        private void CreatePlayers(IEnumerable<String> playerNames)
         {
-            return playerNames.Select(s => new Player(s));
+            players = playerNames.Select(s => new Player(s));
         }
 
-        private static void VerifyNumberOfPlayers(String[] args)
+        private void RandomizePlayerOrder()
         {
-            var playersCount = args.Count();
-            if (playersCount < 2)
-                throw new ArgumentException("Cannot start game with "
-                    + playersCount + " players");
+            players = players.OrderBy(p => Guid.NewGuid());
+        }
+
+        private void VerifyNumberOfPlayers(Int32 numberOfPlayers)
+        {
+            if (numberOfPlayers < 2)
+                throw new ArgumentException("Cannot start game with less than " +
+                    "2 players");
+            else if(numberOfPlayers > 8)
+                throw new ArgumentException("Cannot start game with greater than " +
+                    "8 players");
+        }
+
+        public IEnumerable<String> GetPlayerNames()
+        {
+            return players.Select(p => p.Name);
         }
     }
 }
