@@ -22,7 +22,8 @@ namespace MonopolyTests
         public void CreateAndPlayGameWithOnePlayerFails()
         {
             var players = new[] { "Tim" };
-            game.Play(players, 20);
+            game.SetupGame(players);
+            game.Play(20);
         }
 
         [TestMethod]
@@ -32,7 +33,8 @@ namespace MonopolyTests
         {
             var players = new[] { "Tim", "Richard", "Dick", "Robert", "Bob",
                 "Kevin", "David", "Lucas", "Luke"};
-            game.Play(players, 20);
+            game.SetupGame(players);
+            game.Play(20);
         }
 
         [TestMethod]
@@ -45,7 +47,8 @@ namespace MonopolyTests
 
             for (int i = 0; i < 100; i++)
             {
-                game.Play(carThenHorseList.ToArray(), 20);
+                game.SetupGame(carThenHorseList.ToArray());
+                game.Play(20);
                 var randomizedPlayerList = game.GetPlayerNames().ToList<String>();
 
                 if (carThenHorseList.SequenceEqual<String>(randomizedPlayerList))
@@ -62,7 +65,8 @@ namespace MonopolyTests
         public void PlayingTwentyRoundsMakesRoundsCountTwenty()
         {
             var players = new[] { "Tim", "Lucas", "KPos" };
-            game.Play(players, 20);
+            game.SetupGame(players);
+            game.Play(20);
 
             Assert.AreEqual(20, game.GetRoundsPlayed());
         }
@@ -71,9 +75,33 @@ namespace MonopolyTests
         public void PlayingTwentyRoundsMakesEachPlayersRoundCountTwenty()
         {
             var players = new[] { "Tim", "Lucas", "KPos" };
-            game.Play(players, 20);
+            game.SetupGame(players);
+            game.Play(20);
 
             Assert.AreEqual(20, game.GetRoundsPlayed("Tim"));
+            Assert.AreEqual(20, game.GetRoundsPlayed("Lucas"));
+            Assert.AreEqual(20, game.GetRoundsPlayed("KPos"));
+        }
+
+        [TestMethod]
+        public void PlayingTwoRoundsCheckThatPlayerOrderIsSameEachRound()
+        {
+            var players = new[] { "Tim", "Lucas", "KPos" };
+            game.SetupGame(players);
+            players = game.GetPlayerNames().ToArray();
+            game.Play(1);
+            var playersAfterRounds = game.GetPlayerNames().ToArray();
+
+            Assert.AreEqual(players[0], playersAfterRounds[0]);
+            Assert.AreEqual(players[1], playersAfterRounds[1]);
+            Assert.AreEqual(players[2], playersAfterRounds[2]);
+
+            game.Play(1);
+            playersAfterRounds = game.GetPlayerNames().ToArray();
+
+            Assert.AreEqual(players[0], playersAfterRounds[0]);
+            Assert.AreEqual(players[1], playersAfterRounds[1]);
+            Assert.AreEqual(players[2], playersAfterRounds[2]);
         }
     }
 }
