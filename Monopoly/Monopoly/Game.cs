@@ -7,18 +7,30 @@ namespace Monopoly
     public class Game
     {
         private IEnumerable<Player> players;
+        private GameBoard gameBoard;
+        private Boolean gameStarted;
+
+        public Game(IEnumerable<Player> players)
+        {
+            this.players = players;
+            gameBoard = new GameBoard();
+            gameStarted = false;
+        }
 
         public void Play(Int32 roundsToPlay)
         {
+            if (!gameStarted)
+                SetUpGame();
+            
             for (var i = 0; i < roundsToPlay; i++)
                 PlayRound();
         }
 
-        public void SetupGame(string[] playerNames)
+        private void SetUpGame()
         {
-            VerifyNumberOfPlayers(playerNames.Count());
-            CreatePlayers(playerNames);
+            VerifyNumberOfPlayers();
             RandomizePlayerOrder();
+            gameStarted = true;
         }
 
         private void PlayRound()
@@ -29,9 +41,11 @@ namespace Monopoly
 
         private void TakeTurn(Player player)
         {
+            var spacesToMove = 2;
+            MovePlayer(player, spacesToMove);
             player.IncrementRoundsPlayed();
         }
-
+        
         private void CreatePlayers(IEnumerable<String> playerNames)
         {
             players = playerNames.Select(s => new Player(s)).ToList();
@@ -42,19 +56,14 @@ namespace Monopoly
             players = players.OrderBy(p => Guid.NewGuid()).ToList();
         }
 
-        private void VerifyNumberOfPlayers(Int32 numberOfPlayers)
+        private void VerifyNumberOfPlayers()
         {
-            if (numberOfPlayers < 2)
-                throw new ArgumentException("Cannot start game with less than " +
+            if (players.Count() < 2)
+                throw new InvalidOperationException("Cannot start game with less than " +
                     "2 players");
-            else if(numberOfPlayers > 8)
-                throw new ArgumentException("Cannot start game with greater than " +
+            else if(players.Count() > 8)
+                throw new InvalidOperationException("Cannot start game with greater than " +
                     "8 players");
-        }
-
-        public IEnumerable<String> GetPlayerNames()
-        {
-            return players.Select(p => p.Name).ToList();
         }
 
         public Int32 GetRoundsPlayed()
@@ -65,6 +74,11 @@ namespace Monopoly
         public Int32 GetRoundsPlayed(String playerName)
         {
             return players.First(p => p.Name == playerName).RoundsPlayed;
+        }
+
+        private void MovePlayer(Player player, Int32 spacesToMove)
+        {
+            player.Location = (spacesToMove + player.Location) % GameBoard.GameBoardLength;
         }
     }
 }
