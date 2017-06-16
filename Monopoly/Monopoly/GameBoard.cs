@@ -6,6 +6,11 @@ namespace Monopoly
 {
     public class GameBoard
     {
-        public const Int32 GameBoardLength = 40;
+        public Int32 Length { get; set; }
+
+        public GameBoard(Int32 length)
+        {
+            Length = length;
+        }
     }
 }

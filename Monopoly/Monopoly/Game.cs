@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Monopoly.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,13 +8,16 @@ namespace Monopoly
     public class Game
     {
         public IEnumerable<Player> Players { get; private set; }
+
+        private IMovementService movementService;
         private GameBoard gameBoard;
         private Boolean gameStarted;
 
-        public Game(IEnumerable<Player> players)
+        public Game(IEnumerable<Player> players, IMovementService movementService, GameBoard gameBoard)
         {
             this.Players = players;
-            gameBoard = new GameBoard();
+            this.movementService = movementService;
+            this.gameBoard = gameBoard;
             gameStarted = false;
         }
 
@@ -42,7 +46,7 @@ namespace Monopoly
         private void TakeTurn(Player player)
         {
             var spacesToMove = 1;
-            MovePlayer(player, spacesToMove);
+            movementService.MovePlayer(player, spacesToMove);
             player.IncrementRoundsPlayed();
         }
         
@@ -74,11 +78,6 @@ namespace Monopoly
         public Int32 GetRoundsPlayed(String playerName)
         {
             return Players.First(p => p.Name == playerName).RoundsPlayed;
-        }
-
-        private void MovePlayer(Player player, Int32 spacesToMove)
-        {
-            player.Location = (spacesToMove + player.Location) % GameBoard.GameBoardLength;
         }
     }
 }

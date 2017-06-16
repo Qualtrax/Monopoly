@@ -42,6 +42,8 @@
   <ItemGroup>
     <Compile Include="Game.cs" />
     <Compile Include="GameBoard.cs" />
+    <Compile Include="Services\IMovementService.cs" />
+    <Compile Include="Services\MovementService.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

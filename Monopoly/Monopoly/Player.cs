@@ -14,6 +14,10 @@ namespace Monopoly
             this.Name = Name;
         }
 
+        public Player()
+        {
+        }
+
         public void IncrementRoundsPlayed()
         {
             RoundsPlayed++;
