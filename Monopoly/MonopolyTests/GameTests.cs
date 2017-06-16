@@ -37,18 +37,21 @@ namespace MonopolyTests
         {
             var horseThenCarOccurs = false;
             var carThenHorseOccurs = false;
-            var carThenHorseList = CreatePlayersFromNames(new [] { "Car", "Horse" });
-            var horseThenCarList = CreatePlayersFromNames(new [] { "Horse", "Car" });
+            var carThenHorseList = new[] { "Car", "Horse" };
+            var horseThenCarList = new[] { "Horse", "Car" };
+            var carThenHorsePlayerList = CreatePlayersFromNames(carThenHorseList);
+            var horseThenCarPlayerList = CreatePlayersFromNames(horseThenCarList);
 
             for (int i = 0; i < 100; i++)
             {
-                var players = carThenHorseList.ToList();
+                var players = carThenHorsePlayerList.ToList();
                 var game = new Game(players);
                 game.Play(20);
+                var playersStrings = game.Players.Select(p => p.Name).ToList();
 
-                if (carThenHorseList.SequenceEqual<Player>(players))
+                if (carThenHorseList.SequenceEqual(playersStrings))
                     horseThenCarOccurs = true;
-                else if (horseThenCarList.SequenceEqual<Player>(players))
+                else if (horseThenCarList.SequenceEqual(playersStrings))
                     carThenHorseOccurs = true;
             }
 
@@ -81,36 +84,48 @@ namespace MonopolyTests
         [TestMethod]
         public void PlayingTwoRoundsCheckThatPlayerOrderIsSameEachRound()
         {
-            var players = CreatePlayersFromNames(new[] { "Tim", "Lucas", "KPos" });
-            var game = new Game(players);
-            game.Play(1);
-            var playersAfterOneRound = players.ToList();
+            var firstPlayer = new Player("Tim");
+            var secondPlayer = new Player("Lucas");
+            var originalPlayers = new[] { firstPlayer, secondPlayer };
 
+            var game = new Game(originalPlayers);
             game.Play(1);
 
-            Assert.IsTrue(playersAfterOneRound.SequenceEqual<Player>(players));
+            firstPlayer = game.Players.ElementAt(0);
+            secondPlayer = game.Players.ElementAt(1);
+
+            for (int i = 0; i < 10; i++) {
+                game.Play(1);
+
+                var playersAfterOneRound = game.Players.ToList();
+                Assert.AreEqual(firstPlayer, playersAfterOneRound[0]);
+                Assert.AreEqual(secondPlayer, playersAfterOneRound[1]);
+            }
         }
 
         [TestMethod]
-        public void MovingNewPlayerBySevenLandsOnSeven()
+        public void PlayingOneRoundMovesPlayerByOneSpace()
         {
             var players = CreatePlayersFromNames(new[] { "Tim", "Lucas" });
             var game = new Game(players.ToList());
 
             game.Play(1);
             
-            Assert.AreEqual(2, players.First().Location);
+            Assert.AreEqual(1, game.Players.First().Location);
         }
 
         [TestMethod]
-        public void PlayerStartingOnThirtyNineAndMovesSixEndsOnFive()
+        public void PlayerStartingLastSpaceAndMovesSixEndsOnFive()
         {
-            var players = CreatePlayersFromNames(new[] { "Tim", "Lucas" });
+            var players = CreatePlayersFromNames(new[] { "Tim", "Lucas" }).ToList();
+            players[0].Location = GameBoard.GameBoardLength - 1;
+            players[1].Location = GameBoard.GameBoardLength - 1;
+
             var game = new Game(players);
 
-            game.Play(21);
+            game.Play(6);
 
-            Assert.AreEqual(2, players.First().Location);
+            Assert.AreEqual(5, game.Players.First().Location);
         }
 
         [TestMethod]

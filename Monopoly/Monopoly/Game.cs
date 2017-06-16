@@ -6,13 +6,13 @@ namespace Monopoly
 {
     public class Game
     {
-        private IEnumerable<Player> players;
+        public IEnumerable<Player> Players { get; private set; }
         private GameBoard gameBoard;
         private Boolean gameStarted;
 
         public Game(IEnumerable<Player> players)
         {
-            this.players = players;
+            this.Players = players;
             gameBoard = new GameBoard();
             gameStarted = false;
         }
@@ -35,33 +35,33 @@ namespace Monopoly
 
         private void PlayRound()
         {
-            foreach (var player in players)
+            foreach (var player in Players)
                 TakeTurn(player);
         }
 
         private void TakeTurn(Player player)
         {
-            var spacesToMove = 2;
+            var spacesToMove = 1;
             MovePlayer(player, spacesToMove);
             player.IncrementRoundsPlayed();
         }
         
         private void CreatePlayers(IEnumerable<String> playerNames)
         {
-            players = playerNames.Select(s => new Player(s)).ToList();
+            Players = playerNames.Select(s => new Player(s)).ToList();
         }
 
         private void RandomizePlayerOrder()
         {
-            players = players.OrderBy(p => Guid.NewGuid()).ToList();
+            Players = Players.OrderBy(p => Guid.NewGuid()).ToList();
         }
 
         private void VerifyNumberOfPlayers()
         {
-            if (players.Count() < 2)
+            if (Players.Count() < 2)
                 throw new InvalidOperationException("Cannot start game with less than " +
                     "2 players");
-            else if(players.Count() > 8)
+            else if(Players.Count() > 8)
                 throw new InvalidOperationException("Cannot start game with greater than " +
                     "8 players");
         }
@@ -73,7 +73,7 @@ namespace Monopoly
 
         public Int32 GetRoundsPlayed(String playerName)
         {
-            return players.First(p => p.Name == playerName).RoundsPlayed;
+            return Players.First(p => p.Name == playerName).RoundsPlayed;
         }
 
         private void MovePlayer(Player player, Int32 spacesToMove)
