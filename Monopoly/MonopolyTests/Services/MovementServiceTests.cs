@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MonopolyTests
+namespace MonopolyTests.Services
 {
     [TestClass]
     public class MovementServiceTests
@@ -26,7 +26,7 @@ namespace MonopolyTests
         [TestMethod]
         public void MovePlayerByOneIncreasesPlayerLocationByOne()
         {
-            var player = new Player();
+            var player = new Player("David");
             var spacesToMove = 1;
 
             movementService.MovePlayer(player, spacesToMove);
@@ -37,7 +37,7 @@ namespace MonopolyTests
         [TestMethod]
         public void MovePlayerOnLastSquareByFiveSetsLocationToFour()
         {
-            var player = new Player();
+            var player = new Player("Tim");
             var spacesToMove = 5;
             player.Location = GameBoardLength - 1;
 

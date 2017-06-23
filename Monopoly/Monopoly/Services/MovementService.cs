@@ -17,7 +17,7 @@ namespace Monopoly.Services
 
         public void MovePlayer(Player player, Int32 spacesToMove)
         {
-            player.Location = (spacesToMove + player.Location) % gameBoard.Length;
+            player.Location = (spacesToMove + player.Location) % gameBoard.NumberOfSpaces;
         }
     }
 }

@@ -6,11 +6,11 @@ namespace Monopoly
 {
     public class GameBoard
     {
-        public Int32 Length { get; set; }
+        public Int32 NumberOfSpaces { get; set; }
 
-        public GameBoard(Int32 length)
+        public GameBoard(Int32 numberOfSpaces)
         {
-            Length = length;
+            NumberOfSpaces = numberOfSpaces;
         }
     }
 }
