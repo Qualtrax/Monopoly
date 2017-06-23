@@ -59,7 +59,35 @@ namespace MonopolyTests.Services
         }
 
         [TestMethod]
-        public void MovePlayerToGenericSpaceDoesNotChangeBalance()
+        public void MovePlayerPastGoIncreasesPlayerBalanceByTwoHundred()
+        {
+            var player = new Player("Tim");
+            var locationToStart = GameBoardLength - 2;
+            var expectedLocation = 5;
+
+            player.Location = locationToStart;
+            movementService.MovePlayer(player, 7);
+
+            Assert.AreEqual(expectedLocation, player.Location);
+            Assert.AreEqual(200, player.Balance);
+        }
+
+        [TestMethod]
+        public void MovePlayerPastGoTwiceIncreasesPlayerBalanceByFourHundred()
+        {
+            var player = new Player("Tim");
+            var locationToStart = GameBoardLength - 2;
+            var expectedLocation = 5;
+
+            player.Location = locationToStart;
+            movementService.MovePlayer(player, GameBoardLength + 7);
+
+            Assert.AreEqual(expectedLocation, player.Location);
+            Assert.AreEqual(400, player.Balance);
+        }
+
+        [TestMethod]
+        public void MovePlayerFromGoToGenericSpaceDoesNotIncreaseBalance()
         {
             var player = new Player("Tim");
 
