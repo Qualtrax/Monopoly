@@ -1,6 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Monopoly;
+using Monopoly.Factories;
 using Monopoly.Services;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,11 +18,13 @@ namespace MonopolyTests.Services
 
         private GameBoard gameBoard;
         private MovementService movementService;
+        private Mock<ILandOnSpaceStrategyFactory> mockLandOnSpaceStrategyFactory;
+        private Mock<IEnterSpaceStrategyFactory> mockEnterSpaceStrategyFactory;
 
         public MovementServiceTests()
         {
             gameBoard = new GameBoard(GameBoardLength);
-            movementService = new MovementService(gameBoard);
+            movementService = new MovementService(gameBoard, mockEnterSpaceStrategyFactory.Object, mockLandOnSpaceStrategyFactory.Object);
         }
 
         [TestMethod]
@@ -84,6 +88,30 @@ namespace MonopolyTests.Services
 
             Assert.AreEqual(expectedLocation, player.Location);
             Assert.AreEqual(400, player.Balance);
+        }
+
+        [TestMethod]
+        public void MovePlayerToGoToJailMovesPlayerToJustVisiting()
+        {
+            var player = new Player("Tim");
+            player.Location = MonopolyConstants.GoToJailLocation - 5;
+
+            movementService.MovePlayer(player, 5);
+
+            Assert.AreEqual(MonopolyConstants.JailLocation, player.Location);
+            Assert.AreEqual(0, player.Balance);  
+        }
+
+        [TestMethod]
+        public void MovePlayerOverGoToJailDoesNotMovePlayerToJail()
+        {
+            var player = new Player("Tim");
+            player.Location = MonopolyConstants.GoToJailLocation - 5;
+
+            movementService.MovePlayer(player, 6);
+
+            Assert.AreEqual(MonopolyConstants.GoToJailLocation + 1, player.Location);
+            Assert.AreEqual(0, player.Balance);
         }
 
         [TestMethod]

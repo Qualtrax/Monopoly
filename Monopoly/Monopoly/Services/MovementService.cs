@@ -1,4 +1,5 @@
-﻿using Monopoly.Spaces;
+﻿using Monopoly.Factories;
+using Monopoly.Spaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,21 +11,31 @@ namespace Monopoly.Services
     public class MovementService : IMovementService
     {
         private GameBoard gameBoard;
+        private IEnterSpaceStrategyFactory enterSpaceStrategyFactory;
+        private ILandOnSpaceStrategyFactory landOnSpaceStrategyFactory;
 
-        public MovementService(GameBoard gameBoard)
+        public MovementService(GameBoard gameBoard, IEnterSpaceStrategyFactory enterSpaceStrategyFactory,
+            ILandOnSpaceStrategyFactory landOnSpaceStrategyFactory)
         {
             this.gameBoard = gameBoard;
+            this.enterSpaceStrategyFactory = enterSpaceStrategyFactory;
+            this.landOnSpaceStrategyFactory = landOnSpaceStrategyFactory;
         }
 
         public void MovePlayer(Player player, Int32 spacesToMove)
         {
+            var currentSpace = gameBoard.Spaces[player.Location];
+
             for(int i = 0; i < spacesToMove; i++)
             {
                 player.Location = (1 + player.Location) % gameBoard.NumberOfSpaces;
-                if (gameBoard.Spaces[player.Location] is GoSpace)
-                    player.AddFunds(200);
+                currentSpace = gameBoard.Spaces[player.Location];
+                var enterSpaceStrategy = enterSpaceStrategyFactory.Create(currentSpace);
+                enterSpaceStrategy.Act();
             }
-            
+
+            var landOnSpaceStrategy = landOnSpaceStrategyFactory.Create(currentSpace);
+            landOnSpaceStrategy.Act();
         }
     }
 }

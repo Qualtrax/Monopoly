@@ -60,6 +60,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Factories\EnterSpaceStrategyFactoryTests.cs" />
+    <Compile Include="Factories\LandOnSpaceStrategyFactoryTests.cs" />
     <Compile Include="GameBoardTests.cs" />
     <Compile Include="Services\MovementServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
