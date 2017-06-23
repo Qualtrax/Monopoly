@@ -27,6 +27,12 @@ namespace MonopolyTests
         }
 
         [TestMethod]
+        public void CreatePlayerInitialBalanceIsZero()
+        {
+            Assert.AreEqual(0, player.Balance);
+        }
+
+        [TestMethod]
         public void IncrementRoundsPlayedIncreasesRoundsPlayedByOne()
         {
             var player = new Player("Lucas");
@@ -34,6 +40,29 @@ namespace MonopolyTests
             player.IncrementRoundsPlayed();
 
             Assert.AreEqual(1, player.RoundsPlayed);
+        }
+        [TestMethod]
+        public void AddsOneHundredToPlayerOneHundredTotal()
+        {
+            var player = new Player("Lucas");
+            var fundsToAdd = 100;
+
+            player.AddFunds(fundsToAdd);
+
+            Assert.AreEqual(fundsToAdd, player.Balance);
+        }
+
+        [TestMethod]
+        public void PlayerBalanceStartsAtOneHundredRemoveSeventyHasThirtyLeft()
+        {
+            var player = new Player("Lucas");
+            var fundsToAdd = 100;
+            var fundsToRemove = 70;
+
+            player.AddFunds(fundsToAdd);
+            player.RemoveFunds(fundsToRemove);
+
+            Assert.AreEqual(fundsToAdd - fundsToRemove, player.Balance);
         }
     }
 }

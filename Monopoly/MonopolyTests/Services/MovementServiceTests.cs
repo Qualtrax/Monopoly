@@ -45,5 +45,28 @@ namespace MonopolyTests.Services
 
             Assert.AreEqual(4, player.Location);
         }
+
+        [TestMethod]
+        public void PlayerMovesToSpace38ThenMovesLandsOnGo()
+        {
+            var player = new Player("Tim");
+            
+            player.Location = GameBoardLength - 2;
+            movementService.MovePlayer(player, 2);
+
+            Assert.AreEqual(0, player.Location);
+            Assert.AreEqual(200, player.Balance);
+        }
+
+        [TestMethod]
+        public void MovePlayerToGenericSpaceDoesNotChangeBalance()
+        {
+            var player = new Player("Tim");
+
+            movementService.MovePlayer(player, 2);
+
+            Assert.AreEqual(2, player.Location);
+            Assert.AreEqual(0, player.Balance);
+        }
     }
 }

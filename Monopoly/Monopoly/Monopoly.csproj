@@ -42,10 +42,16 @@
   <ItemGroup>
     <Compile Include="Game.cs" />
     <Compile Include="GameBoard.cs" />
+    <Compile Include="Spaces\GoSpace.cs" />
     <Compile Include="Services\IMovementService.cs" />
     <Compile Include="Services\MovementService.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Spaces\GenericSpace.cs" />
+    <Compile Include="Spaces\ISpace.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Strategies\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

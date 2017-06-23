@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Monopoly.Spaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,13 @@ namespace Monopoly.Services
 
         public void MovePlayer(Player player, Int32 spacesToMove)
         {
-            player.Location = (spacesToMove + player.Location) % gameBoard.NumberOfSpaces;
+            for(int i = 0; i < spacesToMove; i++)
+            {
+                player.Location = (1 + player.Location) % gameBoard.NumberOfSpaces;
+                if (gameBoard.Spaces[player.Location] is GoSpace)
+                    player.AddFunds(200);
+            }
+            
         }
     }
 }

@@ -18,5 +18,15 @@ namespace Monopoly
         {
             RoundsPlayed++;
         }
+
+        public void AddFunds(Int32 amountToAdd)
+        {
+            Balance += amountToAdd;
+        }
+
+        public void RemoveFunds(Int32 amountToAdd)
+        {
+            Balance -= amountToAdd;
+        }
     }
 }
