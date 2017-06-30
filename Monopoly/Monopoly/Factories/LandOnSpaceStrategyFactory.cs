@@ -10,9 +10,18 @@ namespace Monopoly.Factories
 {
     public class LandOnSpaceStrategyFactory : ILandOnSpaceStrategyFactory
     {
-        public ILandOnSpaceStrategy Create(ISpace space)
+        public ILandOnSpaceStrategy Create(ISpace space, Player player)
         {
-            throw new NotImplementedException();
+            if (space is GenericSpace)
+                return new GenericLandOnSpaceStrategy();
+            else if (space is GoSpace)
+                return new GoLandOnSpaceStrategy();
+            else if (space is GoToJailSpace)
+                return new GoToJailLandOnSpaceStrategy(player);
+            else if (space is JustVisitingSpace)
+                return new JustVisitingLandOnSpaceStrategy();
+
+            else throw new InvalidOperationException("Space type not found");
         }
     }
 }

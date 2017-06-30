@@ -6,18 +6,17 @@ using System.Threading.Tasks;
 
 namespace Monopoly.Strategies
 {
-    public class GoEnterSpaceStrategy : IEnterSpaceStrategy
+    public class GoToJailLandOnSpaceStrategy : ILandOnSpaceStrategy
     {
         private Player player;
 
-        public GoEnterSpaceStrategy(Player player)
+        public GoToJailLandOnSpaceStrategy(Player player)
         {
             this.player = player;
         }
-
         public void Act()
         {
-            player.Balance += 200;
+            player.Location = MonopolyConstants.JailLocation;
         }
     }
 }

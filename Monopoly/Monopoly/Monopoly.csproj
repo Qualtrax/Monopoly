@@ -61,7 +61,7 @@
     <Compile Include="Strategies\GoEnterSpaceStrategy.cs" />
     <Compile Include="Strategies\GoLandOnSpaceStrategy.cs" />
     <Compile Include="Strategies\GoToJailEnterSpaceStrategy.cs" />
-    <Compile Include="Strategies\GoToJailLandOnStrategy.cs" />
+    <Compile Include="Strategies\GoToJailLandOnSpaceStrategy.cs" />
     <Compile Include="Strategies\IEnterSpaceStrategy.cs" />
     <Compile Include="Strategies\ILandOnSpaceStrategy.cs" />
     <Compile Include="Strategies\JustVisitingEnterSpaceStrategy.cs" />

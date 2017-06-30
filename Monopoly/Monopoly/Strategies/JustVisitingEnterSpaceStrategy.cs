@@ -9,8 +9,6 @@ namespace Monopoly.Strategies
     public class JustVisitingEnterSpaceStrategy : IEnterSpaceStrategy
     {
         public void Act()
-        {
-            throw new NotImplementedException();
-        }
+        { }
     }
 }

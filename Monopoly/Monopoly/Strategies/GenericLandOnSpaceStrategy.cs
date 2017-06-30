@@ -9,8 +9,6 @@ namespace Monopoly.Strategies
     public class GenericLandOnSpaceStrategy : ILandOnSpaceStrategy
     {
         public void Act()
-        {
-            throw new NotImplementedException();
-        }
+        { }
     }
 }

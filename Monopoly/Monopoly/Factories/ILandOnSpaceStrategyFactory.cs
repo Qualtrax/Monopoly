@@ -10,6 +10,6 @@ namespace Monopoly.Factories
 {
     public interface ILandOnSpaceStrategyFactory
     {
-        ILandOnSpaceStrategy Create(ISpace space);
+        ILandOnSpaceStrategy Create(ISpace space, Player player);
     }
 }

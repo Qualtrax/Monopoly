@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Monopoly;
 
 namespace MonopolyTests.Factories
 {
@@ -14,10 +15,12 @@ namespace MonopolyTests.Factories
     public class EnterSpaceStrategyFactoryTests
     {
         private EnterSpaceStrategyFactory factory;
+        private Player player;
 
         public EnterSpaceStrategyFactoryTests()
         {
             factory = new EnterSpaceStrategyFactory();
+            player = new Player("Luke");
         }
 
         [TestMethod]
@@ -25,7 +28,7 @@ namespace MonopolyTests.Factories
         {
             var genericSpace = new GenericSpace();
 
-            var resultStrategy = factory.Create(genericSpace);
+            var resultStrategy = factory.Create(genericSpace, player);
 
             Assert.IsInstanceOfType(resultStrategy, typeof(GenericEnterSpaceStrategy));
         }
@@ -35,7 +38,7 @@ namespace MonopolyTests.Factories
         {
             var goSpace = new GoSpace();
 
-            var resultStrategy = factory.Create(goSpace);
+            var resultStrategy = factory.Create(goSpace, player);
 
             Assert.IsInstanceOfType(resultStrategy, typeof(GoEnterSpaceStrategy));
         }
@@ -45,7 +48,7 @@ namespace MonopolyTests.Factories
         {
             var goToJailSpace = new GoToJailSpace();
 
-            var resultStrategy = factory.Create(goToJailSpace);
+            var resultStrategy = factory.Create(goToJailSpace, player);
 
             Assert.IsInstanceOfType(resultStrategy, typeof(GoToJailEnterSpaceStrategy));
         }
@@ -55,7 +58,7 @@ namespace MonopolyTests.Factories
         {
             var justVisitingSpace = new JustVisitingSpace();
 
-            var resultStrategy = factory.Create(justVisitingSpace);
+            var resultStrategy = factory.Create(justVisitingSpace, player);
 
             Assert.IsInstanceOfType(resultStrategy, typeof(JustVisitingEnterSpaceStrategy));
         }

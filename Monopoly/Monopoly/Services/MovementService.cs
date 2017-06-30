@@ -30,11 +30,11 @@ namespace Monopoly.Services
             {
                 player.Location = (1 + player.Location) % gameBoard.NumberOfSpaces;
                 currentSpace = gameBoard.Spaces[player.Location];
-                var enterSpaceStrategy = enterSpaceStrategyFactory.Create(currentSpace);
+                var enterSpaceStrategy = enterSpaceStrategyFactory.Create(currentSpace, player);
                 enterSpaceStrategy.Act();
             }
 
-            var landOnSpaceStrategy = landOnSpaceStrategyFactory.Create(currentSpace);
+            var landOnSpaceStrategy = landOnSpaceStrategyFactory.Create(currentSpace, player);
             landOnSpaceStrategy.Act();
         }
     }

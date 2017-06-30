@@ -24,6 +24,8 @@ namespace Monopoly
             {
                 Spaces[i] = new GenericSpace();
             }
+            Spaces[MonopolyConstants.GoToJailLocation] = new GoToJailSpace();
+            Spaces[MonopolyConstants.JailLocation] = new JustVisitingSpace();
         }
     }
 }

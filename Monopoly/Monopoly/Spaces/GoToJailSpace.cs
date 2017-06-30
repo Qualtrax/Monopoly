@@ -7,6 +7,5 @@ using System.Threading.Tasks;
 namespace Monopoly.Spaces
 {
     public class GoToJailSpace : ISpace
-    {
-    }
+    { }
 }

@@ -22,7 +22,7 @@ namespace MonopolyTests
             mockMovementService = new Mock<IMovementService>();
             players = new List<Player>();
 
-            game = new Game(players, mockMovementService.Object, gameBoard);
+            game = new Game(players, mockMovementService.Object);
         }
 
         [TestMethod]
@@ -58,7 +58,7 @@ namespace MonopolyTests
 
             for (int i = 0; i < 100; i++)
             {
-                var game = new Game(carThenHorsePlayerList, mockMovementService.Object, gameBoard);
+                var game = new Game(carThenHorsePlayerList, mockMovementService.Object);
                 var players = carThenHorsePlayerList.ToList();
                 game.Play(20);
                 var playersStrings = game.Players.Select(p => p.Name).ToList();
@@ -99,7 +99,7 @@ namespace MonopolyTests
             var firstPlayer = new Player("Tim");
             var secondPlayer = new Player("Lucas");
             var originalPlayers = new[] { firstPlayer, secondPlayer };
-            var game = new Game(originalPlayers, mockMovementService.Object, gameBoard);
+            var game = new Game(originalPlayers, mockMovementService.Object);
 
             game.Play(1);
 

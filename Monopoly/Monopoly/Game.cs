@@ -10,14 +10,12 @@ namespace Monopoly
         public IEnumerable<Player> Players { get; private set; }
 
         private IMovementService movementService;
-        private GameBoard gameBoard;
         private Boolean gameStarted;
 
-        public Game(IEnumerable<Player> players, IMovementService movementService, GameBoard gameBoard)
+        public Game(IEnumerable<Player> players, IMovementService movementService)
         {
             this.Players = players;
             this.movementService = movementService;
-            this.gameBoard = gameBoard;
             gameStarted = false;
         }
 
