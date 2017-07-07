@@ -3,20 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Monopoly.Actions;
 
 namespace Monopoly.Strategies
 {
-    public class GoToJailLandOnSpaceStrategy : ILandOnSpaceStrategy
+    public class GoToJailLandOnSpaceStrategy : ISpaceActionStrategy
     {
-        private Player player;
+        private IEnumerable<IAction> actions;
 
-        public GoToJailLandOnSpaceStrategy(Player player)
+        public GoToJailLandOnSpaceStrategy()
         {
-            this.player = player;
+            actions = new List<IAction>()
+            {
+                new TeleportAction()
+            };
         }
-        public void Act()
+
+        public IEnumerable<IAction> GetActions()
         {
-            player.Location = MonopolyConstants.JailLocation;
+            return actions;
         }
     }
 }

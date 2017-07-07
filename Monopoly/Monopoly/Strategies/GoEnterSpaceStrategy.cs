@@ -3,21 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Monopoly.Actions;
 
 namespace Monopoly.Strategies
 {
-    public class GoEnterSpaceStrategy : IEnterSpaceStrategy
+    public class GoEnterSpaceStrategy : ISpaceActionStrategy
     {
-        private Player player;
+        private IEnumerable<IAction> actions;
 
-        public GoEnterSpaceStrategy(Player player)
+        public GoEnterSpaceStrategy()
         {
-            this.player = player;
+            actions = new List<IAction>()
+            {
+                new PayAction(MonopolyConstants.PassGoAmount)
+            };
         }
 
-        public void Act()
+        public IEnumerable<IAction> GetActions()
         {
-            player.Balance += 200;
+            return actions;
         }
     }
 }

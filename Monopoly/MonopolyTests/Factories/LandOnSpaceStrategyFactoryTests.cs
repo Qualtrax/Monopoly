@@ -26,26 +26,6 @@ namespace MonopolyTests.Factories
             }
 
             [TestMethod]
-            public void CreateForGenericSpaceReturnsGenericStrategy()
-            {
-                var genericSpace = new GenericSpace();
-
-                var resultStrategy = factory.Create(genericSpace, player);
-
-                Assert.IsInstanceOfType(resultStrategy, typeof(GenericLandOnSpaceStrategy));
-            }
-
-            [TestMethod]
-            public void CreateForGoSpaceReturnsGoStrategy()
-            {
-                var goSpace = new GoSpace();
-
-                var resultStrategy = factory.Create(goSpace, player);
-
-                Assert.IsInstanceOfType(resultStrategy, typeof(GoLandOnSpaceStrategy));
-            }
-
-            [TestMethod]
             public void CreateForGoToJailSpaceReturnsGoToJailStrategy()
             {
                 var goToJailSpace = new GoToJailSpace();
@@ -56,14 +36,26 @@ namespace MonopolyTests.Factories
             }
 
             [TestMethod]
-            public void CreateForJustVisitingSpaceReturnsJustVisitingStrategy()
+            public void CreateForJustVisitingSpaceReturnsEmptySpaceActionStrategy()
             {
                 var justVisitingSpace = new JustVisitingSpace();
 
                 var resultStrategy = factory.Create(justVisitingSpace, player);
 
-                Assert.IsInstanceOfType(resultStrategy, typeof(JustVisitingLandOnSpaceStrategy));
+                Assert.IsInstanceOfType(resultStrategy, typeof(EmptySpaceActionStrategy));
             }
+
+            [TestMethod]
+            public void CreateForIncomeTaxSpaceReturnsJustVisitingStrategy()
+            {
+                var incomeTaxSpace = new IncomeTaxSpace();
+
+                var resultStrategy = factory.Create(incomeTaxSpace, player);
+
+                Assert.IsInstanceOfType(resultStrategy, typeof(IncomeTaxLandOnSpaceStrategy));
+            }
+
+
         }
     }
 }

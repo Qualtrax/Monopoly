@@ -14,45 +14,40 @@ using Monopoly.Strategies;
 namespace MonopolyTests.Services
 {
     [TestClass]
-    public class MovementServiceTests
+    public class TurnServiceTests
     {
         private const Int32 GameBoardLength = MonopolyConstants.BoardLength;
 
         private GameBoard gameBoard;
         private Player player;
-        private MovementService movementService;
+        private TurnService turnService;
         private Mock<ILandOnSpaceStrategyFactory> mockLandOnSpaceStrategyFactory;
         private Mock<IEnterSpaceStrategyFactory> mockEnterSpaceStrategyFactory;
 
-        public MovementServiceTests()
+        public TurnServiceTests()
         {
             player = new Player("Tim");
             mockLandOnSpaceStrategyFactory = new Mock<ILandOnSpaceStrategyFactory>();
             mockEnterSpaceStrategyFactory = new Mock<IEnterSpaceStrategyFactory>();
             SetUpMocks();
             gameBoard = new GameBoard(GameBoardLength);
-            movementService = new MovementService(gameBoard, mockEnterSpaceStrategyFactory.Object, mockLandOnSpaceStrategyFactory.Object);
+            turnService = new TurnService(gameBoard, mockEnterSpaceStrategyFactory.Object, mockLandOnSpaceStrategyFactory.Object);
         }
 
         private void SetUpMocks()
         {
-            var genericEnterSpaceStrategy = new GenericEnterSpaceStrategy();
-            var genericLandOnSpaceStrategy = new GenericLandOnSpaceStrategy();
-            var goEnterSpaceStrategy = new GoEnterSpaceStrategy(player);
-            var goLandOnSpaceStrategy = new GoLandOnSpaceStrategy();
-            var goToJailLandOnSpaceStrategy = new GoToJailLandOnSpaceStrategy(player);
-            var goToJailEnterSpaceStrategy = new GoToJailEnterSpaceStrategy();
-            var justVisitingEnterSpaceStrategy = new JustVisitingEnterSpaceStrategy();
-            var justVisitingLandOnSpaceStrategy = new JustVisitingLandOnSpaceStrategy();
+            var emptySpaceActionStrategy = new EmptySpaceActionStrategy();
+            var goEnterSpaceStrategy = new GoEnterSpaceStrategy();
+            var goToJailLandOnSpaceStrategy = new GoToJailLandOnSpaceStrategy();
 
-            mockEnterSpaceStrategyFactory.Setup(e => e.Create(It.IsAny<GenericSpace>(), player)).Returns(genericEnterSpaceStrategy);
-            mockLandOnSpaceStrategyFactory.Setup(e => e.Create(It.IsAny<GenericSpace>(), player)).Returns(genericLandOnSpaceStrategy);
+            mockEnterSpaceStrategyFactory.Setup(e => e.Create(It.IsAny<GenericSpace>(), player)).Returns(emptySpaceActionStrategy);
+            mockLandOnSpaceStrategyFactory.Setup(e => e.Create(It.IsAny<GenericSpace>(), player)).Returns(emptySpaceActionStrategy);
             mockEnterSpaceStrategyFactory.Setup(e => e.Create(It.IsAny<GoSpace>(), player)).Returns(goEnterSpaceStrategy);
-            mockLandOnSpaceStrategyFactory.Setup(e => e.Create(It.IsAny<GoSpace>(), player)).Returns(goLandOnSpaceStrategy);
-            mockEnterSpaceStrategyFactory.Setup(e => e.Create(It.IsAny<GoToJailSpace>(), player)).Returns(goToJailEnterSpaceStrategy);
+            mockLandOnSpaceStrategyFactory.Setup(e => e.Create(It.IsAny<GoSpace>(), player)).Returns(emptySpaceActionStrategy);
+            mockEnterSpaceStrategyFactory.Setup(e => e.Create(It.IsAny<GoToJailSpace>(), player)).Returns(emptySpaceActionStrategy);
             mockLandOnSpaceStrategyFactory.Setup(e => e.Create(It.IsAny<GoToJailSpace>(), player)).Returns(goToJailLandOnSpaceStrategy);
-            mockEnterSpaceStrategyFactory.Setup(e => e.Create(It.IsAny<JustVisitingSpace>(), player)).Returns(justVisitingEnterSpaceStrategy);
-            mockLandOnSpaceStrategyFactory.Setup(e => e.Create(It.IsAny<JustVisitingSpace>(), player)).Returns(justVisitingLandOnSpaceStrategy);
+            mockEnterSpaceStrategyFactory.Setup(e => e.Create(It.IsAny<JustVisitingSpace>(), player)).Returns(emptySpaceActionStrategy);
+            mockLandOnSpaceStrategyFactory.Setup(e => e.Create(It.IsAny<JustVisitingSpace>(), player)).Returns(emptySpaceActionStrategy);
         }
 
         [TestMethod]
@@ -60,7 +55,7 @@ namespace MonopolyTests.Services
         {
             var spacesToMove = 1;
 
-            movementService.MovePlayer(player, spacesToMove);
+            turnService.TakeTurn(player, spacesToMove);
 
             Assert.AreEqual(spacesToMove, player.Location);
             mockEnterSpaceStrategyFactory.Verify(e => e.Create(It.IsAny<GenericSpace>(), player), Times.Once());
@@ -73,7 +68,7 @@ namespace MonopolyTests.Services
             var spacesToMove = 5;
             player.Location = GameBoardLength - 1;
 
-            movementService.MovePlayer(player, spacesToMove);
+            turnService.TakeTurn(player, spacesToMove);
 
             Assert.AreEqual(4, player.Location);
         }
@@ -82,7 +77,7 @@ namespace MonopolyTests.Services
         public void PlayerMovesToSpace38ThenMovesLandsOnGo()
         {
             player.Location = GameBoardLength - 2;
-            movementService.MovePlayer(player, 2);
+            turnService.TakeTurn(player, 2);
 
             Assert.AreEqual(0, player.Location);
             Assert.AreEqual(200, player.Balance);
@@ -95,7 +90,7 @@ namespace MonopolyTests.Services
             var expectedLocation = 5;
 
             player.Location = locationToStart;
-            movementService.MovePlayer(player, 7);
+            turnService.TakeTurn(player, 7);
 
             Assert.AreEqual(expectedLocation, player.Location);
             Assert.AreEqual(200, player.Balance);
@@ -108,7 +103,7 @@ namespace MonopolyTests.Services
             var expectedLocation = 5;
 
             player.Location = locationToStart;
-            movementService.MovePlayer(player, GameBoardLength + 7);
+            turnService.TakeTurn(player, GameBoardLength + 7);
 
             Assert.AreEqual(expectedLocation, player.Location);
             Assert.AreEqual(400, player.Balance);
@@ -119,7 +114,7 @@ namespace MonopolyTests.Services
         {
             player.Location = MonopolyConstants.GoToJailLocation - 5;
 
-            movementService.MovePlayer(player, 5);
+            turnService.TakeTurn(player, 5);
 
             Assert.AreEqual(MonopolyConstants.JailLocation, player.Location);
             Assert.AreEqual(0, player.Balance);  
@@ -130,7 +125,7 @@ namespace MonopolyTests.Services
         {
             player.Location = MonopolyConstants.GoToJailLocation - 5;
 
-            movementService.MovePlayer(player, 6);
+            turnService.TakeTurn(player, 6);
 
             Assert.AreEqual(MonopolyConstants.GoToJailLocation + 1, player.Location);
             Assert.AreEqual(0, player.Balance);
@@ -139,7 +134,7 @@ namespace MonopolyTests.Services
         [TestMethod]
         public void MovePlayerFromGoToGenericSpaceDoesNotIncreaseBalance()
         {
-            movementService.MovePlayer(player, 2);
+            turnService.TakeTurn(player, 2);
 
             Assert.AreEqual(2, player.Location);
             Assert.AreEqual(0, player.Balance);

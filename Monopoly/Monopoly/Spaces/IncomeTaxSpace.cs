@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Monopoly.Strategies
+namespace Monopoly.Spaces
 {
-    public interface IEnterSpaceStrategy
+    public class IncomeTaxSpace : ISpace
     {
-        void Act();
+
     }
 }

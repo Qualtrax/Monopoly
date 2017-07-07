@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Monopoly.Strategies
+namespace Monopoly.Actions
 {
-    public class GoToJailEnterSpaceStrategy : IEnterSpaceStrategy
+    public interface IAction
     {
-        public void Act()
-        { }
     }
 }

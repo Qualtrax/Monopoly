@@ -9,13 +9,13 @@ namespace Monopoly
     {
         public IEnumerable<Player> Players { get; private set; }
 
-        private IMovementService movementService;
+        private ITurnService turnService;
         private Boolean gameStarted;
 
-        public Game(IEnumerable<Player> players, IMovementService movementService)
+        public Game(IEnumerable<Player> players, ITurnService movementService)
         {
             this.Players = players;
-            this.movementService = movementService;
+            this.turnService = movementService;
             gameStarted = false;
         }
 
@@ -44,13 +44,8 @@ namespace Monopoly
         private void TakeTurn(Player player)
         {
             var spacesToMove = 1;
-            movementService.MovePlayer(player, spacesToMove);
+            turnService.TakeTurn(player, spacesToMove);
             player.IncrementRoundsPlayed();
-        }
-        
-        private void CreatePlayers(IEnumerable<String> playerNames)
-        {
-            Players = playerNames.Select(s => new Player(s)).ToList();
         }
 
         private void RandomizePlayerOrder()

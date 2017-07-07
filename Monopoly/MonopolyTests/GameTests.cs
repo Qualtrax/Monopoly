@@ -12,17 +12,17 @@ namespace MonopolyTests
     public class GameTests
     {
         private GameBoard gameBoard;
-        private Mock<IMovementService> mockMovementService;
+        private Mock<ITurnService> mockTurnService;
         private List<Player> players;
         private Game game;
 
         public GameTests()
         {
             gameBoard = new GameBoard(40);
-            mockMovementService = new Mock<IMovementService>();
+            mockTurnService = new Mock<ITurnService>();
             players = new List<Player>();
 
-            game = new Game(players, mockMovementService.Object);
+            game = new Game(players, mockTurnService.Object);
         }
 
         [TestMethod]
@@ -58,7 +58,7 @@ namespace MonopolyTests
 
             for (int i = 0; i < 100; i++)
             {
-                var game = new Game(carThenHorsePlayerList, mockMovementService.Object);
+                var game = new Game(carThenHorsePlayerList, mockTurnService.Object);
                 var players = carThenHorsePlayerList.ToList();
                 game.Play(20);
                 var playersStrings = game.Players.Select(p => p.Name).ToList();
@@ -99,7 +99,7 @@ namespace MonopolyTests
             var firstPlayer = new Player("Tim");
             var secondPlayer = new Player("Lucas");
             var originalPlayers = new[] { firstPlayer, secondPlayer };
-            var game = new Game(originalPlayers, mockMovementService.Object);
+            var game = new Game(originalPlayers, mockTurnService.Object);
 
             game.Play(1);
 
@@ -123,8 +123,8 @@ namespace MonopolyTests
 
             game.Play(1);
 
-            mockMovementService.Verify(s => s.MovePlayer(playerOne, 1), Times.Once());
-            mockMovementService.Verify(s => s.MovePlayer(It.IsAny<Player>(), It.IsAny<Int32>()), Times.Exactly(2));
+            mockTurnService.Verify(s => s.TakeTurn(playerOne, 1), Times.Once());
+            mockTurnService.Verify(s => s.TakeTurn(It.IsAny<Player>(), It.IsAny<Int32>()), Times.Exactly(2));
         }
 
         [TestMethod]
