@@ -45,7 +45,7 @@ namespace Monopoly
         {
             var spacesToMove = 1;
             turnService.TakeTurn(player, spacesToMove);
-            player.IncrementRoundsPlayed();
+            player.RoundsPlayed++;
         }
 
         private void RandomizePlayerOrder()

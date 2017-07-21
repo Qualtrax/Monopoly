@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Monopoly;
 using System;
+using Monopoly.GameBoards;
 
 namespace MonopolyTests
 {
@@ -12,12 +13,12 @@ namespace MonopolyTests
         private const Int32 GameBoardLength = 40;
 
         private Player player;
-        private GameBoard board;
+        private MonopolyGameBoard board;
 
         public GameBoardTests()
         {
             player = new Player("Richard");
-            board = new GameBoard(GameBoardLength);
+            board = new MonopolyGameBoard(GameBoardLength);
         }
 
         [TestMethod]

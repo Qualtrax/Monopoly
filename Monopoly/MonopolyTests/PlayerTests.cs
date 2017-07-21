@@ -37,7 +37,7 @@ namespace MonopolyTests
         {
             var player = new Player("Lucas");
 
-            player.IncrementRoundsPlayed();
+            player.RoundsPlayed++;
 
             Assert.AreEqual(1, player.RoundsPlayed);
         }
@@ -47,7 +47,7 @@ namespace MonopolyTests
             var player = new Player("Lucas");
             var fundsToAdd = 100;
 
-            player.AddFunds(fundsToAdd);
+            player.Balance += fundsToAdd;
 
             Assert.AreEqual(fundsToAdd, player.Balance);
         }
@@ -59,8 +59,8 @@ namespace MonopolyTests
             var fundsToAdd = 100;
             var fundsToRemove = 70;
 
-            player.AddFunds(fundsToAdd);
-            player.RemoveFunds(fundsToRemove);
+            player.Balance += fundsToAdd;
+            player.Balance -= fundsToRemove;
 
             Assert.AreEqual(fundsToAdd - fundsToRemove, player.Balance);
         }

@@ -63,10 +63,15 @@
     <Compile Include="Factories\EnterSpaceStrategyFactoryTests.cs" />
     <Compile Include="Factories\LandOnSpaceStrategyFactoryTests.cs" />
     <Compile Include="GameBoardTests.cs" />
+    <Compile Include="Services\ActionExecutorTests.cs" />
     <Compile Include="Services\TurnServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PlayerTests.cs" />
     <Compile Include="GameTests.cs" />
+    <Compile Include="Strategies\EmptySpaceActionStrategyTests.cs" />
+    <Compile Include="Strategies\GoEnterSpaceStrategyTests.cs" />
+    <Compile Include="Strategies\GoToJailLandOnSpaceStrategyTest.cs" />
+    <Compile Include="Strategies\IncomeTaxLandOnSpaceStrategyTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Monopoly\Monopoly.csproj">

@@ -5,20 +5,21 @@ using System.Linq;
 using Monopoly;
 using Moq;
 using Monopoly.Services;
+using Monopoly.GameBoards;
 
 namespace MonopolyTests
 {
     [TestClass]
     public class GameTests
     {
-        private GameBoard gameBoard;
+        private MonopolyGameBoard gameBoard;
         private Mock<ITurnService> mockTurnService;
         private List<Player> players;
         private Game game;
 
         public GameTests()
         {
-            gameBoard = new GameBoard(40);
+            gameBoard = new MonopolyGameBoard(40);
             mockTurnService = new Mock<ITurnService>();
             players = new List<Player>();
 

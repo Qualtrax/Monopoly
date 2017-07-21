@@ -7,56 +7,40 @@ using System.Text;
 using System.Threading.Tasks;
 using Monopoly.Strategies;
 using Monopoly.Actions;
+using Monopoly.GameBoards;
 
 namespace Monopoly.Services
 {
     public class TurnService : ITurnService
     {
-        private GameBoard gameBoard;
+        private IGameBoard gameBoard;
         private IEnterSpaceStrategyFactory enterSpaceStrategyFactory;
         private ILandOnSpaceStrategyFactory landOnSpaceStrategyFactory;
+        private IActionExecutor actionExcecutor;
 
-        public TurnService(GameBoard gameBoard, IEnterSpaceStrategyFactory enterSpaceStrategyFactory,
-            ILandOnSpaceStrategyFactory landOnSpaceStrategyFactory)
+        public TurnService(IGameBoard gameBoard, IEnterSpaceStrategyFactory enterSpaceStrategyFactory,
+            ILandOnSpaceStrategyFactory landOnSpaceStrategyFactory, IActionExecutor actionExcecutor)
         {
             this.gameBoard = gameBoard;
             this.enterSpaceStrategyFactory = enterSpaceStrategyFactory;
             this.landOnSpaceStrategyFactory = landOnSpaceStrategyFactory;
+            this.actionExcecutor = actionExcecutor;
         }
 
         public void TakeTurn(Player player, Int32 spacesToMove)
         {
-            var currentSpace = gameBoard.Spaces[player.Location];
+            var currentSpace = gameBoard.Spaces.ElementAt(player.Location);
 
             for (int i = 0; i < spacesToMove; i++)
             {
-                player.Location = (1 + player.Location) % gameBoard.NumberOfSpaces;
-                currentSpace = gameBoard.Spaces[player.Location];
+                player.Location = (1 + player.Location) % gameBoard.Spaces.Count();
+                currentSpace = gameBoard.Spaces.ElementAt(player.Location);
                 var enterSpaceStrategy = enterSpaceStrategyFactory.Create(currentSpace, player);
-                Execute(enterSpaceStrategy, player);
+                actionExcecutor.Execute(enterSpaceStrategy, player);
             }
 
             var landOnSpaceStrategy = landOnSpaceStrategyFactory.Create(currentSpace, player);
-            Execute(landOnSpaceStrategy, player);
-        }
-
-        private void Execute(ISpaceActionStrategy strategy, Player player)
-        {
-            foreach (var action in strategy.GetActions())
-            {
-                var actionType = action.GetType();
-
-                if (actionType == typeof(PayAction))
-                {
-                    var payAction = action as PayAction;
-                    player.AddFunds(payAction.Amount);
-                }
-                else if (actionType == typeof(TeleportAction))
-                {
-                    var teleportAction = action as TeleportAction;
-                    player.Location = MonopolyConstants.JailLocation;
-                }
-            }
+            actionExcecutor.Execute(landOnSpaceStrategy, player);
         }
     }
 

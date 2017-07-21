@@ -48,8 +48,11 @@
     <Compile Include="Factories\ILandOnSpaceStrategyFactory.cs" />
     <Compile Include="Factories\LandOnSpaceStrategyFactory.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="GameBoard.cs" />
+    <Compile Include="GameBoards\IGameBoard.cs" />
+    <Compile Include="GameBoards\MonopolyGameBoard.cs" />
     <Compile Include="MonopolyConstants.cs" />
+    <Compile Include="Services\ActionExecutor.cs" />
+    <Compile Include="Services\IActionExecutor.cs" />
     <Compile Include="Spaces\IncomeTaxSpace.cs" />
     <Compile Include="Spaces\GoSpace.cs" />
     <Compile Include="Services\ITurnService.cs" />
